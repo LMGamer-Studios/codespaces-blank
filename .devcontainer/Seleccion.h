@@ -1,13 +1,12 @@
+#ifndef SELECCION_H
+#define SELECCION_H
+
 #include <iostream>
 #include <string>
 #include <cassert>
 #include <stdexcept>
-#include <cstdlib>
 #include "Jugador.h"
 #include "Director.h"
-
-#ifndef SELECCION_H
-#define SELECCION_H
 
 class Seleccion {
 	private:
@@ -18,7 +17,7 @@ class Seleccion {
 	
 	    Director directorTecnico;
 	    std::string nombrePais;
-	
+		
 	public:
 	    Seleccion(std::string pais, Director dir)
 	        : nombrePais(pais), directorTecnico(dir), cantidadActual(0) {}
@@ -31,11 +30,11 @@ class Seleccion {
 	        return cantidadActual;
 	    }
 	
-	    Persona* getPersona(int index) const {
-	        if (index < 0 || index >= cantidadActual) {
+	    Persona* getPersona(int i) const {
+	        if (i < 0 || i >= cantidadActual) {
 	            throw std::out_of_range("Indice invalido");
 	        }
-	        return listaPersonas[index];
+	        return listaPersonas[i];
 	    }
 	
 	    void agregarJugador(const std::string& nombre) {
@@ -47,18 +46,25 @@ class Seleccion {
 	        cantidadActual++;
 	    }
 	    
+	    bool perteneceElJugador(Jugador* jugIn) {
+		    if (jugIn == nullptr) {
+		        return false;
+		    }
+		    
+		    for (int i = 0; i < cantidadActual; i++) {
+		        if (listaPersonas[i] == jugIn) {
+		            return true;
+		        }
+		    }
+		
+		    return false;
+		}
+	    
 	    ~Seleccion() {
     		for (int i = 0; i < cantidadActual; i++) {
         	delete listaPersonas[i];
     		}
 		}
-};
-
-class Grupo{
-    private:
-        //void placeholder = 0;
-    public:
-        //void placeholder();
 };
 
 #endif

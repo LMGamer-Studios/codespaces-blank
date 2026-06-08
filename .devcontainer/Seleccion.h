@@ -3,25 +3,55 @@
 #include <cassert>
 #include <stdexcept>
 #include <cstdlib>
-#include "Persona.h"
+#include "Jugador.h"
+#include "Director.h"
 
-class Seleccion{
-    private:
-        std::string nombreSeleccion= "N/A";
-        Jugador** arregloJugadores[26];
-        int posicion = 0;
-    public:
-        Seleccion(std::string nombreSeleccionIn){
-            nombreSeleccion = nombreSeleccionIn;
-        }
-        void añadirJugadores (Jugador* JugadorIn){
-            if (posicion >=26){
-                std::throw out_of_range("Error: Limite de 26 jugadores excedido!");
-            }else{
-                arregloJugadores[posicion] = JugadorIn;
-                posicion++;
-            }
-        }
+#ifndef SELECCION_H
+#define SELECCION_H
+
+class Seleccion {
+	private:
+	    static const int jugMax = 26;
+	
+	    Persona* listaPersonas[jugMax];
+	    int cantidadActual;
+	
+	    Director directorTecnico;
+	    std::string nombrePais;
+	
+	public:
+	    Seleccion(std::string pais, Director dir)
+	        : nombrePais(pais), directorTecnico(dir), cantidadActual(0) {}
+	
+	    std::string getNombrePais() const {
+	        return nombrePais;
+	    }
+	
+	    int getCantidadPersonas() const {
+	        return cantidadActual;
+	    }
+	
+	    Persona* getPersona(int index) const {
+	        if (index < 0 || index >= cantidadActual) {
+	            throw std::out_of_range("Indice invalido");
+	        }
+	        return listaPersonas[index];
+	    }
+	
+	    void agregarJugador(const std::string& nombre) {
+	        if (cantidadActual >= jugMax) {
+	            throw std::out_of_range("Limite alcanzado");
+	        }
+	
+	        listaPersonas[cantidadActual] = new Jugador(nombre);
+	        cantidadActual++;
+	    }
+	    
+	    ~Seleccion() {
+    		for (int i = 0; i < cantidadActual; i++) {
+        	delete listaPersonas[i];
+    		}
+		}
 };
 
 class Grupo{
@@ -30,3 +60,5 @@ class Grupo{
     public:
         //void placeholder();
 };
+
+#endif

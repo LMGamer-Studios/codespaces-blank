@@ -4,34 +4,23 @@
 #include <stdexcept>
 #include <cstdlib>
 
-class Persona{
-	private:
-        std::string nombre = "N/A";
-	public:
-        Persona(std::string nombreIn){
-            nombre = nombreIn;
-        }
+#ifndef PERSONA_H
+#define PERSONA_H
 
-        std::string getNombres(){
-	        return nombre;
-        }
+class Persona {
+protected:
+    std::string nombre;
+
+public:
+    Persona(std::string nombreIn) : nombre(nombreIn) {}
+
+    std::string getNombre() const {
+        return nombre;
+    }
+
+    virtual std::string getTipo() const = 0;
+    
+    virtual ~Persona() {}
 };
 
-class Jugador : virtual public Persona{
-    private:
-        int goles = 0;
-    public:
-        int getGoles(){
-            return goles;
-        }
-        int addGoles(){
-            goles++;
-        }
-};
-
-class Director : virtual public Persona{
-    private:
-        //void placeholder = 0;
-    public:
-        //void placeholder();
-};
+#endif

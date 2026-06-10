@@ -50,8 +50,16 @@ class Grupo {
 		    cantSele++;
 		}
 		
-		void jugarPartido(/* input Partido* */){
-			//logic
+		void jugarPartido(Partido* partidoIn){
+			if (partidoIn == nullptr){
+		        throw std::invalid_argument("Error! Partido dado invalido!");
+		    }
+		    
+		    if (cantPartido >= partidosMax){
+		        throw std::out_of_range("Error! Limite alcanzado!");
+		    }
+		    
+		    
 		}
 		
 		void tabla(/*inputs*/){

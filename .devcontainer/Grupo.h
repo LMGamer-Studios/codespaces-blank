@@ -24,23 +24,30 @@ class Grupo {
 			}
 			
 			for (int i = 0; i < partidosMax; i++){
-    			partidos[i] = nullptr;
+				partidos[i] = nullptr;
 			}
 			
 			cantSele = 0;
 			cantPartido = 0;
 		}
     	
-    	void agregarSeleccion(/*input*/){
-    		
-    		assert(cantSele >= 0);
-    		
-    		if (cantSele <= seleccionesMax){
-    			//agrege la seleccion
-			}else if (cantSele > seleccionesMax){
-				throw std::out_of_range("Error! Limite alcanzado!");
-			}
-    		
+    	void agregarSeleccion(Seleccion* seleIn){
+		    if (seleIn == nullptr){
+		        throw std::invalid_argument("Error! Seleccion dada invalida!");
+		    }
+		
+		    for (int i = 0; i < cantSele; i++){
+		        if (selecciones[i] == seleIn){
+		            throw std::invalid_argument("Error! La seleccion ya esta en el grupo!");
+		        }
+		    }
+		
+		    if (cantSele >= seleccionesMax){
+		        throw std::out_of_range("Error! Limite alcanzado!");
+		    }
+		
+		    selecciones[cantSele] = seleIn;
+		    cantSele++;
 		}
 		
 		void jugarPartido(/* input Partido* */){

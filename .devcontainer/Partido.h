@@ -99,6 +99,14 @@ public:
     std::string getVisitante() const{
         return visitante->getNombrePais();
     }
+    
+    Seleccion* getSeleccionLocal() const {
+	    return local;
+	}
+	
+	Seleccion* getSeleccionVisitante() const {
+	    return visitante;
+	}
 };
 
 #endif

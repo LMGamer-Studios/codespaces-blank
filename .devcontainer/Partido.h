@@ -76,12 +76,13 @@ public:
 	}
 		
 	std::string getGanador() const{
-		if (golLoc > golVis)
-		    return local->getNombrePais();
-		else if (golVis > golLoc)
-		    return visitante->getNombrePais();
-		else
-		    return "Empate";
+		if (golLoc > golVis){
+			return local->getNombrePais();
+		}else if (golVis > golLoc){
+			return visitante->getNombrePais();
+		}else{
+			return "Empate";
+		}
 	}
 
     int getGolLoc() const{

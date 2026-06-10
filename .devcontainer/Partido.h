@@ -1,133 +1,104 @@
-#ifndef SELECCION_H
-#define SELECCION_H
+#ifndef PARTIDO_H
+#define PARTIDO_H
 
 #include <iostream>
 #include <string>
+#include <cassert>
 #include <stdexcept>
+#include "Seleccion.h"
 #include "Jugador.h"
-#include "Director.h"
 #include "Estadistica.h"
 
-class Seleccion {
-
+class Partido{
+    
 private:
+    Seleccion* local;
+    Seleccion* visitante;
 
-    static const int jugMax = 26;
-
-    Persona* listaPersonas[jugMax];
-    int cantidadActual;
-
-    Director directorTecnico;
-    std::string nombrePais;
-
-    Estadistica estadisticas;
+    int golLoc = 0, golVis = 0;
 
 public:
 
-    Seleccion(std::string pais, Director dir)
-        : nombrePais(pais),
-          directorTecnico(dir),
-          cantidadActual(0),
-          estadisticas()
+    Partido(Seleccion* Loc, Seleccion* Vis)
+        : local(Loc), visitante(Vis)
     {
-        for (int i = 0; i < jugMax; i++) {
-            listaPersonas[i] = nullptr;
+        if (Loc == nullptr || Vis == nullptr) {
+            throw std::invalid_argument("Error! Selecciones invalidas!");
+        }
+        if (Loc == Vis) {
+            throw std::invalid_argument("Error! Una seleccion no puede jugar contra si misma!");
         }
     }
 	
-    std::string getNombrePais() const {
-        return nombrePais;
+    void setResultado(int golLocIn, int golVisIn){ //para testeos o cargas rapidas de datos de un partido. USAR ESE SOLO PARA TESTEO!
+			if (golLocIn < 0 || golVisIn < 0) {
+    			throw std::invalid_argument("Los goles no pueden ser negativos");
+			}
+			
+			golLoc = golLocIn;
+			golVis = golVisIn;
+		}
+	
+    void registrarGol(Jugador* jug){ //para simulaciones de partido. USAR PRINCIPALMENTE ESTE!
+			
+			if (jug == nullptr){
+				throw std::invalid_argument("Error! El jugador dado no es valido");
+			}
+			
+			if (local->perteneceElJugador(jug)) {
+			    golLoc++;
+			}
+			else if (visitante->perteneceElJugador(jug)) {
+			    golVis++;
+			}
+			else {
+			    throw std::invalid_argument("El jugador no pertenece a ninguna seleccion");
+			}
+			
+			jug->agregarGoles(1);
+		}
+		
+    // esto es para sacar estadisticas 
+    Estadistica getEstadisticaLocal(){
+        return Estadistica(golLoc, golVis);
     }
 
-    int getCantidadPersonas() const {
-        return cantidadActual;
+    Estadistica getEstadisticaVisitante(){
+        return Estadistica(golVis, golLoc);
     }
-    
-    void agregarJugador(const std::string& nombre) {
-	
-	    if (nombre.empty()) {
-	        throw std::invalid_argument("Nombre invalido");
-	    }
-	
-	    if (cantidadActual >= jugMax) {
-	        throw std::out_of_range("Limite alcanzado");
-	    }
-	
-	    listaPersonas[cantidadActual] = new Jugador(nombre);
-	
-	    assert(listaPersonas[cantidadActual] != nullptr);
-	
-	    cantidadActual++;
+
+	bool hayEmpate() const{
+		if (golLoc == golVis){
+			return true;
+		}else{
+			return false;
+		}
 	}
-    
-    Persona* getPersona(int i) const {
-	
-	    if (i < 0 || i >= cantidadActual) {
-	        throw std::out_of_range("Indice invalido");
-	    }
-	
-	    assert(listaPersonas[i] != nullptr);
-	
-	    return listaPersonas[i];
+		
+	std::string getGanador() const{
+		if (golLoc > golVis)
+		    return local->getNombrePais();
+		else if (golVis > golLoc)
+		    return visitante->getNombrePais();
+		else
+		    return "Empate";
 	}
 
-    bool perteneceElJugador(Jugador* jugIn) {
-	
-	    if (jugIn == nullptr) return false;
-	
-	    for (int i = 0; i < cantidadActual; i++) {
-	        assert(listaPersonas[i] != nullptr);
-	
-	        if (listaPersonas[i] == jugIn) {
-	            return true;
-	        }
-	    }
-	
-	    return false;
-	}
-	
-	void actualizarEstadistica(const Estadistica& est){
-	    estadisticas.acumular(est);
-	}
-	
-	int getPartidosJugados() const {
-		return estadisticas.getPartidosJugados();
-	}
-	
-	int getPartidosGanados() const {
-		return estadisticas.getPartidosGanados();
-	}
-	
-	int getPartidosEmpatados() const {
-		return estadisticas.getPartidosEmpate();
-	}
-	
-	int getPartidosPerdidos() const {
-		return estadisticas.getPartidosPerdidos();
-	}
-	
-	int getGolesFavor() const {
-		return estadisticas.getGolesFavor();
-	}
-	
-	int getGolesContra() const {
-		return estadisticas.getGolesContra();
-	}
-	
-	int getDiferenciaGoles() const {
-		return estadisticas.getDiferenciaGoles();
-	}
-	
-	int getPuntos() const {
-		return estadisticas.getPuntos();
-	}
-	
-    ~Seleccion() {
-	    for (int i = 0; i < cantidadActual; i++) {
-	        delete listaPersonas[i];
-	        listaPersonas[i] = nullptr;
-	    }
-	}
+    int getGolLoc() const{
+        return golLoc;
+    }
+
+    int getGolVis() const{
+        return golVis;
+    }
+
+    std::string getLocal() const{
+        return local->getNombrePais();
+    }
+
+    std::string getVisitante() const{
+        return visitante->getNombrePais();
+    }
 };
 
 #endif

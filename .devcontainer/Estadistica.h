@@ -47,7 +47,12 @@ class Estadistica {
 		}
 		
 		void acumular(const Estadistica& otra) {
-		
+			assert(partidosJugados >= 0);
+			
+			if (otra.partidosJugados < 0 || otra.golesFavor < 0 || otra.golesContra < 0) {
+    			throw std::invalid_argument("Estadistica invalida");
+			}
+			
 		    partidosJugados += otra.partidosJugados;
 		    partidosGanados += otra.partidosGanados;
 		    partidosEmpate += otra.partidosEmpate;

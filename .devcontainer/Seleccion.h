@@ -46,11 +46,11 @@ public:
     void agregarJugador(const std::string& nombre) {
 	
 	    if (nombre.empty()) {
-	        throw std::invalid_argument("Nombre invalido");
+	        throw std::invalid_argument("Error! Nombre invalido!");
 	    }
 	
 	    if (cantidadActual >= jugMax) {
-	        throw std::out_of_range("Limite alcanzado");
+	        throw std::out_of_range("Error! Limite alcanzado!");
 	    }
 	
 	    listaPersonas[cantidadActual] = new Jugador(nombre);
@@ -63,7 +63,7 @@ public:
     Persona* getPersona(int i) const {
 	
 	    if (i < 0 || i >= cantidadActual) {
-	        throw std::out_of_range("Indice invalido");
+	        throw std::out_of_range("Error! Indice invalido!");
 	    }
 	
 	    assert(listaPersonas[i] != nullptr);
@@ -84,6 +84,10 @@ public:
 	    }
 	
 	    return false;
+	}
+	
+	void actualizarEstadistica(const Estadistica& est){
+	    estadisticas.acumular(est);
 	}
 	
 	int getPartidosJugados() const {

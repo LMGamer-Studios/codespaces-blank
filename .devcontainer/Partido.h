@@ -59,11 +59,11 @@ public:
 		}
 		
     // esto es para sacar estadisticas 
-    Estadistica getEstadisticaLocal(){
+    Estadistica getEstadisticaLocal() const{
         return Estadistica(golLoc, golVis);
     }
 
-    Estadistica getEstadisticaVisitante(){
+    Estadistica getEstadisticaVisitante() const{
         return Estadistica(golVis, golLoc);
     }
 

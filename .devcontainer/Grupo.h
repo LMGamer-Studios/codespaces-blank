@@ -95,7 +95,7 @@ class Grupo {
 		        throw std::logic_error("Error! No hay selecciones en el grupo");
 		    }
 		
-		    Seleccion* temp[4];
+		    Seleccion* temp[seleccionesMax];
 		
 		    for (int i = 0; i < cantSele; i++){
 		        temp[i] = selecciones[i];
@@ -131,7 +131,7 @@ class Grupo {
 		    }
 		}
 		
-		Seleccion* getGanador(){
+		Seleccion* getGanador() const{
 		
 		    if (cantSele == 0){
 		        throw std::logic_error("Error! No hay selecciones en el grupo");

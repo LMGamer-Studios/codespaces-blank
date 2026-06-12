@@ -14,7 +14,7 @@ private:
 
     static const int jugMax = 26;
 
-    Persona* listaPersonas[jugMax];
+    Jugador* listaPersonas[jugMax];
     int cantidadActual;
 
     Director directorTecnico;
@@ -60,7 +60,7 @@ public:
 	    cantidadActual++;
 	}
     
-    Persona* getPersona(int i) const {
+    Jugador* getPersona(int i) const {
 	
 	    if (i < 0 || i >= cantidadActual) {
 	        throw std::out_of_range("Error! Indice invalido!");

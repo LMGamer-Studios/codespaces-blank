@@ -9,15 +9,11 @@
 #include "Estadistica.h"
 #include "Grupo.h"
 
-
-
-
 std::string lin = "--------------------------------\n";
 
 int main() {
 	
 	//Grupos precargados
-	
 	Director dt("Luis Enrique");
     Seleccion espana("Espania", dt);
     espana.agregarJugador("Pedri");
@@ -135,7 +131,6 @@ int main() {
 	grupoB.agregarSeleccion(&argentina);
 	
 	//Partidos Precargados
-	
 	Partido partido1(&mexico,&espana);
 	Partido partido2(&uSA,&canada);
 	Partido partido3(&francia,&alemania);

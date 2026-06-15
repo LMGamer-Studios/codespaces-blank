@@ -60,15 +60,11 @@ public:
 	    cantidadActual++;
 	}
     
-    Jugador* getPersona(int i) const {
-	
+    Jugador* getPersona(int i) {
 	    if (i < 0 || i >= cantidadActual) {
-	        throw std::out_of_range("Error! Indice invalido!");
+	        throw std::out_of_range("Jugador invalido");
 	    }
-	
-	    assert(listaPersonas[i] != nullptr);
-	
-	    return listaPersonas[i];
+	    return listaPersonas[i]; // asumiendo que guardar como: Jugador*
 	}
 
     bool perteneceElJugador(Jugador* jugIn) {

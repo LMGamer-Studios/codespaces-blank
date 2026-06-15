@@ -15,6 +15,16 @@ class Jugador : public Persona {
    		Jugador(std::string nombreIn) : Persona(nombreIn) {
 			goles = 0;
 		}
+		
+		void setGoles(int golesIn) {
+
+    	if (golesIn < 0) {
+    		
+        	throw std::invalid_argument("Cantidad de goles invalida");
+    	}
+
+    		goles = golesIn;
+		}
 	
     	int getGoles() const {
         	return goles;
@@ -30,3 +40,4 @@ class Jugador : public Persona {
 };
 
 #endif
+

@@ -39,25 +39,24 @@ public:
 			golVis = golVisIn;
 		}
 	
-    void registrarGol(Jugador* jug){ //para simulaciones de partido. USAR PRINCIPALMENTE ESTE!
-			
-			if (jug == nullptr){
-				throw std::invalid_argument("Error! El jugador dado no es valido");
-			}
-			
-			if (local->perteneceElJugador(jug)) {
-			    golLoc++;
-			}
-			else if (visitante->perteneceElJugador(jug)) {
-			    golVis++;
-			}
-			else {
-			    throw std::invalid_argument("El jugador no pertenece a ninguna seleccion");
-			}
-			
-			jug->agregarGoles(1);
-		}
-		
+	void registrarGol(Jugador& jug){ //para simulaciones de partido. USAR PRINCIPALMENTE ESTE!
+
+	    if (local == nullptr || visitante == nullptr) {
+	        throw std::runtime_error("Error! Equipos no inicializados en el partido");
+	    }
+	
+	    if (local->perteneceElJugador(&jug)) {
+	        golLoc++;
+	    }
+	    else if (visitante->perteneceElJugador(&jug)) {
+	        golVis++;
+	    }
+	    else {
+	        throw std::invalid_argument("El jugador no pertenece a ninguna seleccion");
+	    }
+	
+	    jug.agregarGoles(1);
+	}
     // esto es para sacar estadisticas 
     Estadistica getEstadisticaLocal() const{
         return Estadistica(golLoc, golVis);

@@ -28,7 +28,6 @@ int main() {
 	int cantGruposCreados = 0;
 	
 	Director dtDefecto("Por Asignar");
-	Director poolDirectores[MAX_SELECCIONES];
 	Seleccion seleccionesCreadas[MAX_SELECCIONES] = {
 	    Seleccion("Vacio", dtDefecto),
 	    Seleccion("Vacio", dtDefecto),
@@ -103,8 +102,8 @@ int main() {
 	                    std::cout << "Nombre del DT: ";
 	                    std::getline(std::cin, nombreDT);
 	
-	                    poolDirectores[cantSeleccionesCreadas] = Director(nombreDT);
-	                    seleccionesCreadas[cantSeleccionesCreadas] = Seleccion(nombrePais, poolDirectores[cantSeleccionesCreadas]);
+	                    Director dtTemp(nombreDT);
+						seleccionesCreadas[cantSeleccionesCreadas] = Seleccion(nombrePais, dtTemp);
 	
 	                    Seleccion& seleccionInsertada = seleccionesCreadas[cantSeleccionesCreadas];
 	                    cantSeleccionesCreadas++;

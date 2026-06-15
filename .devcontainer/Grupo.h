@@ -147,6 +147,77 @@ class Grupo {
 		
 		    return mejor;
 		}
+		
+	void tablaGoleadores() {
+
+   		std::string nombres[104];
+    	std::string paises[104];
+    	int goles[104];
+
+    	int cantidad = 0;
+
+    
+    	for (int i = 0; i < cantSele; i++) {
+
+        
+        	for (int j = 0; j < selecciones[i]->getCantidadPersonas(); j++) {
+
+            Jugador* jug = selecciones[i]->getPersona(j);
+
+            
+            	if (jug->getGoles() > 0) {
+
+	                nombres[cantidad] = jug->getNombre();
+	                paises[cantidad] = selecciones[i]->getNombrePais();
+	                goles[cantidad] = jug->getGoles();
+	
+	                cantidad++;
+            }
+        }
+    }
+
+	    if (cantidad == 0) {
+	        std::cout << "No hay goleadores registrados.\n";
+	        return;
+	    }
+
+    
+	    for (int i = 0; i < cantidad - 1; i++) {
+	
+	        for (int j = 0; j < cantidad - i - 1; j++) {
+	
+	            if (goles[j] < goles[j + 1]) {
+	
+	                
+	                int auxGol = goles[j];
+	                goles[j] = goles[j + 1];
+	                goles[j + 1] = auxGol;
+	
+	                
+	                std::string auxNombre = nombres[j];
+	                nombres[j] = nombres[j + 1];
+	                nombres[j + 1] = auxNombre;
+	
+	                
+	                std::string auxPais = paises[j];
+	                paises[j] = paises[j + 1];
+	                paises[j + 1] = auxPais;
+	            }
+	        }
+	    }
+
+	    std::cout << "\n===== TABLA DE GOLEADORES =====\n";
+	    std::cout << "POS\tJUGADOR\t\tSELECCION\tGOLES\n";
+	
+	    for (int i = 0; i < cantidad; i++) {
+	
+	        std::cout << i + 1 << "\t"
+	                  << nombres[i] << "\t\t"
+	                  << paises[i] << "\t\t"
+	                  << goles[i] << "\n";
+	    }
+	}
+		
 };
 
 #endif

@@ -60,9 +60,7 @@ try {
 
     std::cout << "Iniciando precarga del sistema...\n";
 
-    // ======================
     // GRUPO A
-    // ======================
 
     nombresGrupos[cantGruposCreados] = "Grupo A";
 
@@ -84,9 +82,7 @@ try {
 
     cantGruposCreados++;
 
-    // ======================
     // GRUPO B
-    // ======================
 
     nombresGrupos[cantGruposCreados] = "Grupo B";
 
@@ -235,8 +231,8 @@ catch (const std::exception& e) {
 	do {
 	    try {
 	        std::cout << lin << "Que accion desea realizar?\n" << lin;
-	        std::cout << "1. Registrar / Cargar grupos y selecciones\n\n";
-	        std::cout << "2. Registrar / Guardar y Cargar resultados de partidos\n\n";
+	        std::cout << "1. Cargar grupos y selecciones\n\n";
+	        std::cout << "2. Cargar resultados de partidos\n\n";
 	        std::cout << "3. Mostrar tabla de posiciones\n\n";
 	        std::cout << "4. Mostrar tabla de goleadores\n\n";
 	        std::cout << "5. Salir del programa\n";
@@ -285,10 +281,12 @@ catch (const std::exception& e) {
 					
 					    int indiceInicio = cantSeleccionesCreadas;
 					
+					    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // FIX (solo una vez)
+					
 					    for (int i = 0; i < numEquipos; i++) {
 					
 					        std::string nombrePais, nombreDT;
-					        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					        // ❌ ELIMINADO: cin.ignore aquí (rompía todo)
 					
 					        std::cout << "Nombre del Pais: ";
 					        std::getline(std::cin, nombrePais);
@@ -306,7 +304,7 @@ catch (const std::exception& e) {
 					        std::cout << "¿Cuantos jugadores?: ";
 					        std::cin >> cantJugadoresManual;
 					
-					        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // OK (este sí)
 					
 					        for (int j = 0; j < cantJugadoresManual; j++) {
 					            std::string nomJug;
@@ -336,23 +334,24 @@ catch (const std::exception& e) {
 					}
 					
 					else if (subOpcion == 2) {
-
-						std::string archivoName;
-						std::cout << "Nombre del archivo a cargar: ";
-						std::cin >> archivoName;
+					
+					    std::string archivoName;
+					
+					    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 						
-						if (archivoName.size() < 4 || archivoName.substr(archivoName.size() - 4) != ".txt") {
+					    std::cout << "Nombre del archivo a cargar: ";
+					    std::getline(std::cin, archivoName);
+					
+					    if (archivoName.size() < 4 || archivoName.substr(archivoName.size() - 4) != ".txt") { //para no tener que poner .txt
 					        archivoName += ".txt";
 					    }
-						
-						persistence->cargarGrupo(archivoName, gruposCreados[cantGruposCreados], seleccionesCreadas, cantSeleccionesCreadas);
-						nombresGrupos[cantGruposCreados] = "Grupo_Cargado";
-						cantGruposCreados++;
-						
-						std::cout << "Grupo cargado correctamente.\n";
-					}
 					
-					else {
+					    persistence->cargarGrupo(archivoName, gruposCreados[cantGruposCreados], seleccionesCreadas, cantSeleccionesCreadas);
+					    nombresGrupos[cantGruposCreados] = "Grupo_Cargado";
+					    cantGruposCreados++;
+					
+					    std::cout << "Grupo cargado correctamente.\n";
+					}else{
 					    throw std::invalid_argument("Subopcion invalida");
 					}
 					

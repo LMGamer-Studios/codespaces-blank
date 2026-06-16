@@ -157,6 +157,10 @@ int main() {
 						std::cout << "Nombre del archivo a cargar: ";
 						std::cin >> archivoName;
 						
+						if (archivoName.size() < 4 || archivoName.substr(archivoName.size() - 4) != ".txt") {
+					        archivoName += ".txt";
+					    }
+						
 						persistence->cargarGrupo(archivoName, gruposCreados[cantGruposCreados], seleccionesCreadas, cantSeleccionesCreadas);
 						nombresGrupos[cantGruposCreados] = "Grupo_Cargado";
 						cantGruposCreados++;

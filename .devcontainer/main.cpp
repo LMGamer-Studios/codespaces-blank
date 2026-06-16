@@ -127,6 +127,111 @@ catch (const std::exception& e) {
 	
 	int opcion = 0;
 	
+	/* Test */
+	
+	/*
+	// Idoneo
+	try {
+	Director dt("Test");
+	Seleccion s("CR", dt);
+	s.agregarJugador("J1");
+	Partido p(&s, &s);
+	p.registrarGol(*s.getPersona(0));
+	std::cout << "IDONEO OK\n";
+	} catch (...) {
+	std::cout << "IDONEO FAIL\n";
+	}
+	*/
+	
+	/*
+	// Limite: equipos = 0
+	try {
+	int n = 0;
+	if (n <= 0 || n > 4) throw std::out_of_range("equipos");
+	} catch (const std::exception& e) {
+	std::cout << "LIMITE equipos OK\n";
+	}
+	*/
+	
+	/*
+	// Limite: indice jugador
+	try {
+	int idx = 0;
+	if (idx <= 0) throw std::out_of_range("jugador");
+	} catch (...) {
+	std::cout << "LIMITE jugador OK\n";
+	}
+	*/
+	
+	/*
+	// Extremo: goles negativos
+	try {
+	int g = -1;
+	if (g < 0) throw std::invalid_argument("goles");
+	} catch (...) {
+	std::cout << "EXTREMO goles OK\n";
+	}
+	*/
+	
+	/*
+	// Extremo: archivo inexistente
+	try {
+	Archivotexto a;
+	Grupo g;
+	Seleccion pool[5];
+	int idx = 0;
+	a.cargarGrupo("no.txt", g, pool, idx);
+	} catch (...) {
+	std::cout << "EXTREMO archivo OK\n";
+	}
+	*/
+	
+	/*
+	// Extremo: overflow selecciones
+	try {
+	int cant = MAX_SELECCIONES;
+	int add = 1;
+	if (cant + add > MAX_SELECCIONES) throw std::out_of_range("overflow");
+	} catch (...) {
+	std::cout << "EXTREMO overflow OK\n";
+	}
+	*/
+	
+	/*
+	// Extremo: indices partido invalidos
+	try {
+	int idxLocal = -1, idxVis = 100;
+	if (idxLocal < 0 || idxVis < 0) throw std::out_of_range("partido");
+	} catch (...) {
+	std::cout << "EXTREMO partido OK\n";
+	}
+	*/
+	
+	/*
+	// Extremo: jugador inexistente
+	try {
+	Director dt("T");
+	Seleccion s1("A", dt), s2("B", dt);
+	Partido p(&s1, &s2);
+	p.registrarGol(*s1.getPersona(0));
+	} catch (...) {
+	std::cout << "EXTREMO jugador inexistente OK\n";
+	}
+	*/
+	
+	/*
+	// Extremo: subopcion invalida
+	try {
+	int sub = 99;
+	if (sub != 1 && sub != 2) throw std::invalid_argument("subop");
+	} catch (...) {
+	std::cout << "EXTREMO subop OK\n";
+	}
+	*/
+	
+	// Fin de Tests
+
+	
 	do {
 	    try {
 	        std::cout << lin << "Que accion desea realizar?\n" << lin;

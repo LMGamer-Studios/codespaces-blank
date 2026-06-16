@@ -56,7 +56,7 @@ class Archivotexto : public IArchivo {
 		    }
 		
 		    archivo.close();
-		    std::cout << "¡Grupo guardado en TXT exitosamente!\n";
+		    std::cout << "Â¡Grupo guardado en TXT exitosamente!\n";
 		}
 		
 		void cargarGrupo(const std::string& nombreArchivo, Grupo& grupoDestino, Seleccion* poolSelecciones, int& indiceGlobalSelecciones) override {
@@ -162,8 +162,6 @@ class Archivotexto : public IArchivo {
 		
 		        partidoCargado.setResultado(golesLocal, golesVisitante);
 		
-		        local->actualizarEstadistica(partidoCargado.getEstadisticaLocal());
-		        visitante->actualizarEstadistica(partidoCargado.getEstadisticaVisitante());
 		
 		        grupoDestino.registrarPartido(&partidoCargado);
 		        cantPartidosDestino++;

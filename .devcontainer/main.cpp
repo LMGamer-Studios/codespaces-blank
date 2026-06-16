@@ -64,87 +64,115 @@ int main() {
 	        switch(opcion) {
 	
 	            case 1: {
-	                std::system("cls");
-	
-	                if (cantGruposCreados >= MAX_GRUPOS) {
-	                    throw std::out_of_range("Maximo de grupos alcanzado");
-	                }
-	
-	                std::string nomGrupo;
-	                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	                std::cout << "Nombre del grupo: ";
-	                std::getline(std::cin, nomGrupo);
-	
-	                nombresGrupos[cantGruposCreados] = nomGrupo;
-	
-	                int numEquipos;
-	                std::cout << "Cuantas selecciones desea agregar (Max 4): ";
-	                std::cin >> numEquipos;
-	
-	                if (numEquipos <= 0 || numEquipos > 4) {
-	                    throw std::out_of_range("Numero de equipos invalido (1-4)");
-	                }
-	
-	                if (cantSeleccionesCreadas + numEquipos > MAX_SELECCIONES) {
-	                    throw std::out_of_range("Excede el maximo de selecciones");
-	                }
-	
-	                int indiceInicio = cantSeleccionesCreadas;
-	
-	                for (int i = 0; i < numEquipos; i++) {
-	
-	                    std::string nombrePais, nombreDT;
-	                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	
-	                    std::cout << "Nombre del Pais: ";
-	                    std::getline(std::cin, nombrePais);
-	
-	                    std::cout << "Nombre del DT: ";
-	                    std::getline(std::cin, nombreDT);
-	
-	                    Director dtTemp(nombreDT);
-						seleccionesCreadas[cantSeleccionesCreadas] = Seleccion(nombrePais, dtTemp);
-	
-	                    Seleccion& seleccionInsertada = seleccionesCreadas[cantSeleccionesCreadas];
-	                    cantSeleccionesCreadas++;
-	
-	                    int cantJugadoresManual;
-	                    std::cout << "¿Cuantos jugadores?: ";
-	                    std::cin >> cantJugadoresManual;
-	
-	                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	
-	                    for (int j = 0; j < cantJugadoresManual; j++) {
-	                        std::string nomJug;
-	                        std::getline(std::cin, nomJug);
-	
-	                        if (!nomJug.empty()) {
-	                            seleccionInsertada.agregarJugador(nomJug);
-	                        }
-	                    }
-	
-	                    gruposCreados[cantGruposCreados].agregarSeleccion(&seleccionInsertada);
-	                }
-	
-	                char guardarTxt;
-	                std::cout << "¿Desea exportar el grupo? (s/n): ";
-	                std::cin >> guardarTxt;
-	
-	                if (guardarTxt == 's' || guardarTxt == 'S') {
-	                    std::string archivoName;
-	                    std::cout << "Nombre de archivo: ";
-	                    std::cin >> archivoName;
-	
-	                    persistence->guardarGrupo(archivoName, nomGrupo, &seleccionesCreadas[indiceInicio], numEquipos);
-	                }
-	
-	                cantGruposCreados++;
-	
-	                std::system("pause");
-	                std::system("cls");
-	                break;
-	            }
-	
+					std::system("cls");
+					
+					if (cantGruposCreados >= MAX_GRUPOS) {
+					    throw std::out_of_range("Maximo de grupos alcanzado");
+					}
+					
+					std::cout << "=== GESTION DE GRUPOS ===\n";
+					std::cout << "1. Crear grupo manualmente\n";
+					std::cout << "2. Cargar grupo desde archivo\n";
+					
+					int subOpcion;
+					std::cout << "Seleccione una opcion: ";
+					std::cin >> subOpcion;
+					
+					if (subOpcion == 1) {
+					
+					    std::string nomGrupo;
+					    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					    std::cout << "Nombre del grupo: ";
+					    std::getline(std::cin, nomGrupo);
+					
+					    nombresGrupos[cantGruposCreados] = nomGrupo;
+					
+					    int numEquipos;
+					    std::cout << "Cuantas selecciones desea agregar (Max 4): ";
+					    std::cin >> numEquipos;
+					
+					    if (numEquipos <= 0 || numEquipos > 4) {
+					        throw std::out_of_range("Numero de equipos invalido (1-4)");
+					    }
+					
+					    if (cantSeleccionesCreadas + numEquipos > MAX_SELECCIONES) {
+					        throw std::out_of_range("Excede el maximo de selecciones");
+					    }
+					
+					    int indiceInicio = cantSeleccionesCreadas;
+					
+					    for (int i = 0; i < numEquipos; i++) {
+					
+					        std::string nombrePais, nombreDT;
+					        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					
+					        std::cout << "Nombre del Pais: ";
+					        std::getline(std::cin, nombrePais);
+					
+					        std::cout << "Nombre del DT: ";
+					        std::getline(std::cin, nombreDT);
+					
+					        Director dtTemp(nombreDT);
+					        seleccionesCreadas[cantSeleccionesCreadas] = Seleccion(nombrePais, dtTemp);
+					
+					        Seleccion& seleccionInsertada = seleccionesCreadas[cantSeleccionesCreadas];
+					        cantSeleccionesCreadas++;
+					
+					        int cantJugadoresManual;
+					        std::cout << "¿Cuantos jugadores?: ";
+					        std::cin >> cantJugadoresManual;
+					
+					        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					
+					        for (int j = 0; j < cantJugadoresManual; j++) {
+					            std::string nomJug;
+					            std::getline(std::cin, nomJug);
+					
+					            if (!nomJug.empty()) {
+					                seleccionInsertada.agregarJugador(nomJug);
+					            }
+					        }
+					
+					        gruposCreados[cantGruposCreados].agregarSeleccion(&seleccionInsertada);
+					    }
+					
+					    char guardarTxt;
+					    std::cout << "¿Desea exportar el grupo? (s/n): ";
+					    std::cin >> guardarTxt;
+					
+					    if (guardarTxt == 's' || guardarTxt == 'S') {
+					        std::string archivoName;
+					        std::cout << "Nombre de archivo: ";
+					        std::cin >> archivoName;
+					
+					        persistence->guardarGrupo(archivoName, nomGrupo, &seleccionesCreadas[indiceInicio], numEquipos);
+					    }
+					
+					    cantGruposCreados++;
+					}
+					
+					else if (subOpcion == 2) {
+
+						std::string archivoName;
+						std::cout << "Nombre del archivo a cargar: ";
+						std::cin >> archivoName;
+						
+						persistence->cargarGrupo(archivoName, gruposCreados[cantGruposCreados], seleccionesCreadas, cantSeleccionesCreadas);
+						nombresGrupos[cantGruposCreados] = "Grupo_Cargado";
+						cantGruposCreados++;
+						
+						std::cout << "Grupo cargado correctamente.\n";
+					}
+					
+					else {
+					    throw std::invalid_argument("Subopcion invalida");
+					}
+					
+					std::system("pause");
+					std::system("cls");
+					break;
+					}
+				
 	            case 2: {
 	                std::system("cls");
 	

@@ -50,6 +50,7 @@ class Archivotexto : public IArchivo {
 		}
 		
 		void cargarGrupo(const std::string& nombreArchivo, Grupo& grupoDestino, Seleccion* poolSelecciones, int& indiceGlobalSelecciones) override {
+		
 		    std::ifstream archivo(nombreArchivo);
 		    if (!archivo.is_open()) {
 		        throw std::runtime_error("No se pudo abrir el archivo para cargar grupo");
@@ -62,7 +63,16 @@ class Archivotexto : public IArchivo {
 		    archivo >> cantSelecciones;
 		    archivo.ignore();
 		
+		    if (cantSelecciones <= 0 || cantSelecciones > 4) {
+		        throw std::out_of_range("Cantidad de selecciones invalida en archivo");
+		    }
+		
 		    for (int i = 0; i < cantSelecciones; i++) {
+		
+		        if (indiceGlobalSelecciones >= 8) {
+		            throw std::out_of_range("Overflow de selecciones global");
+		        }
+		
 		        std::string nombrePais;
 		        std::getline(archivo, nombrePais);
 		
@@ -76,6 +86,7 @@ class Archivotexto : public IArchivo {
 		        Seleccion& selecActual = poolSelecciones[indiceGlobalSelecciones];
 		
 		        for (int j = 0; j < cantJugadores; j++) {
+		
 		            std::string nombreJugador;
 		            int golesJugador;
 		
@@ -86,15 +97,22 @@ class Archivotexto : public IArchivo {
 		            if (!nombreJugador.empty()) {
 		                selecActual.agregarJugador(nombreJugador);
 		
-		                Jugador* jug = selecActual.getPersona(
-		                    selecActual.getCantidadPersonas() - 1
-		                );
+		                int idx = selecActual.getCantidadPersonas() - 1;
+		                if (idx < 0) {
+		                    throw std::runtime_error("Error agregando jugador");
+		                }
+		
+		                Jugador* jug = selecActual.getPersona(idx);
+		                if (!jug) {
+		                    throw std::runtime_error("Jugador invalido");
+		                }
 		
 		                jug->setGoles(golesJugador);
 		            }
 		        }
 		
 		        grupoDestino.agregarSeleccion(&selecActual);
+		
 		        indiceGlobalSelecciones++;
 		    }
 		
